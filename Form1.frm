@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin VB.Form Form1 
-   Caption         =   "淘宝时间校准"
-   ClientHeight    =   3345
+   Caption         =   "北京时间校准"
+   ClientHeight    =   3795
    ClientLeft      =   60
    ClientTop       =   405
    ClientWidth     =   5850
    LinkTopic       =   "Form1"
-   ScaleHeight     =   3345
+   ScaleHeight     =   3795
    ScaleWidth      =   5850
    StartUpPosition =   3  '窗口缺省
    Begin VB.Timer Timer2 
@@ -16,11 +16,11 @@ Begin VB.Form Form1
       Top             =   2160
    End
    Begin VB.CommandButton Command1 
-      Caption         =   "获取淘宝时间"
+      Caption         =   "校准时间"
       Height          =   615
       Left            =   1440
       TabIndex        =   1
-      Top             =   2280
+      Top             =   2400
       Width           =   2895
    End
    Begin VB.Timer Timer1 
@@ -45,17 +45,17 @@ Begin VB.Form Form1
       Width           =   90
    End
    Begin VB.Label Label4 
-      Caption         =   "淘宝："
+      Caption         =   "北京时间："
       Height          =   375
-      Left            =   360
+      Left            =   120
       TabIndex        =   4
       Top             =   1320
-      Width           =   735
+      Width           =   975
    End
    Begin VB.Label Label3 
       Caption         =   "本机："
       Height          =   375
-      Left            =   360
+      Left            =   120
       TabIndex        =   3
       Top             =   600
       Width           =   735
@@ -167,13 +167,15 @@ Label2.Caption = ""
 Label5.Caption = ""
 Timer2.Enabled = False
 DoEvents
-Dim t As Double
-t = getTime / 1000
-If Not IsNumeric(t) Then
-    MsgBox "校准失败！返回：" & t
+Dim ti As String
+ti = getTime
+If Not IsNumeric(ti) Or ti = "0" Then
+    MsgBox "校准失败！返回：" & ti
     Command1.Enabled = True
     Exit Sub
 End If
+Dim t As Double
+t = getTime / 1000
 'Sleep Int(1000 - (t - Int(t)) * 1000)
 'setTime Int(t) + 1
 setTime Int(t), Int((t - Int(t)) * 1000)
@@ -232,6 +234,10 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
 End
+End Sub
+
+Private Sub Label6_Click()
+    MsgBox "本软件通过HTTP协议调用淘宝时间api进行时间校准，仅供学习使用！——CH", vbOKOnly, "彩蛋"
 End Sub
 
 Private Sub Timer1_Timer()
